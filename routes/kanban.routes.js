@@ -34,20 +34,7 @@ kanbanRouter.delete("/boards/:id", async (req, res) => {
     }
 });
 
-// kanbanRouter.post('/task', async (req, res) => {
-//     const task = new Task({
-//       title: req.body.title,
-//       description: req.body.description,
-//       status: req.body.status,
-//     });
-  
-//     try {
-//        await task.save();
-//       res.send({data:task})
-//     } catch (err) {
-//         res.send({Message:err.message})
-//     }
-//   })
+
 
 kanbanRouter.post('/boards/:boardId/tasks', async (req, res) => {
     const { boardId } = req.params;

@@ -14,7 +14,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/",userRouter)
-// app.use(authentication);
+app.use(authentication);
 app.use("/",kanbanRouter)
 
 
