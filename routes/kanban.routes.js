@@ -76,6 +76,20 @@ kanbanRouter.post('/boards/:boardId/tasks', async (req, res) => {
     }
   });
 
+  kanbanRouter.patch('/boards/:boardId/tasks/:taskId', async (req, res) => {
+    const { boardId, taskId} = req.params;
+    const { status } = req.body;
+    try {
+      const board = await Board.findById(boardId);
+      const task = board.tasks.id(taskId);
+      if (status) task.status = status;  
+      await board.save();
+      res.send({Message:"Updated"});
+    } catch (err) {
+      res.send({ message: err.message });
+    }
+  });
+
   kanbanRouter.post('/boards/:boardId/tasks/:taskId', async (req, res) => {
     const { boardId,taskId } = req.params;
     const { title, isCompleted } = req.body;
@@ -90,6 +104,25 @@ kanbanRouter.post('/boards/:boardId/tasks', async (req, res) => {
         res.send({Message:err.message})
     }
   });
+
+  kanbanRouter.patch('/boards/:boardId/tasks/:taskId/subtasks/:subtaskId', async (req, res) => {
+    const { boardId, taskId, subtaskId } = req.params;
+    const { title, isCompleted } = req.body;
+    try {
+      const board = await Board.findById(boardId);
+      const task = board.tasks.id(taskId);
+      const subtask = task.subtasks.id(subtaskId);
+  
+      if (title) subtask.title = title;
+      if (isCompleted !== undefined) subtask.isCompleted = isCompleted;
+  
+      await board.save();
+      res.send({Message:"Updated"});
+    } catch (err) {
+      res.send({ message: err.message });
+    }
+  });
+  
   
 module.exports = {
    kanbanRouter
